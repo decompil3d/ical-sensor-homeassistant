@@ -43,12 +43,16 @@ class ICalCalendarEventDevice(CalendarEventDevice):
         self._event = None
         self._name = name
         self._offset_reached = False
+        self._is_free = False
         self.ical_events = ical_events
 
     @property
-    def device_state_attributes(self):
-        """Return the device state attributes."""
-        return {"offset_reached": self._offset_reached}
+    def extra_state_attributes(self):
+        """Return the extra state attributes."""
+        return {
+            "offset_reached": self._offset_reached,
+            "is_free": self._is_free,
+        }
 
     @property
     def event(self):
@@ -73,6 +77,7 @@ class ICalCalendarEventDevice(CalendarEventDevice):
         if event is None:
             self._event = event
             return
+        event["summary"] += " !!-2" # Manually set offset to 2 mins prior
         event = calculate_offset(event, OFFSET)
         self._event = copy.deepcopy(event)
         self._event["start"] = {}
@@ -80,4 +85,5 @@ class ICalCalendarEventDevice(CalendarEventDevice):
         self._event["start"]["dateTime"] = event["start"].isoformat()
         self._event["end"]["dateTime"] = event["end"].isoformat()
         self._offset_reached = is_offset_reached(self.event)
+        self._is_free = event["transp"].casefold() == "transparent".casefold()
         self._event["all_day"] = event["all_day"]
