@@ -360,6 +360,7 @@ class ICalEvents:
             "location": event.get("LOCATION"),
             "description": event.get("DESCRIPTION"),
             "all_day": self.all_day,
+            "is_free": event.get("TRANSP").casefold() == "transparent".casefold()
         }
         _LOGGER.debug("Event to add: %s", str(event_dict))
         return event_dict
