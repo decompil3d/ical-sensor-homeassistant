@@ -384,18 +384,18 @@ class ICalEvents:
 
         # Indate can be TZ naive
         if indate.tzinfo is None or indate.tzinfo.utcoffset(indate) is None:
-            # _LOGGER.debug("TZ-Naive indate: %s Adding TZ %s", str(indate), str(gettz(str(timezone))))
+            _LOGGER.debug("TZ-Naive indate: %s Adding TZ %s", str(indate), str(gettz(str(timezone))))
             # tz = pytz.timezone(str(timezone))
             # indate = tz.localize(indate)
             indate = indate.replace(tzinfo=gettz(str(timezone)))
         # Rrules dont play well with pytz
-        # _LOGGER.debug("Tzinfo 1: %s", str(indate.tzinfo))
+        _LOGGER.debug("Tzinfo 1: %s", str(indate.tzinfo))
         if not str(indate.tzinfo).startswith("tzfile"):
-            # _LOGGER.debug("Pytz indate: %s. replacing with tz %s", str(indate), str(gettz(str(indate.tzinfo))))
+            _LOGGER.debug("Pytz indate: %s. replacing with tz %s", str(indate), str(gettz(str(indate.tzinfo))))
             indate = indate.replace(tzinfo=gettz(str(indate.tzinfo)))
         if str(indate.tzinfo).endswith('/UTC'):
             indate = indate.replace(tzinfo=tzutc)
-        # _LOGGER.debug("Tzinfo 2: %s", str(indate.tzinfo))
+        _LOGGER.debug("Tzinfo 2: %s", str(indate.tzinfo))
 
         _LOGGER.debug("Out date: %s", str(indate))
         return indate
