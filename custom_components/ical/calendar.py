@@ -85,5 +85,6 @@ class ICalCalendarEventDevice(CalendarEventDevice):
         self._event["start"]["dateTime"] = event["start"].isoformat()
         self._event["end"]["dateTime"] = event["end"].isoformat()
         self._offset_reached = is_offset_reached(self.event)
-        self._is_free = event["transp"].casefold() == "transparent".casefold()
+        _LOGGER.debug("Event keys: %s", event.keys())
+        # self._is_free = event["transp"].casefold() == "transparent".casefold()
         self._event["all_day"] = event["all_day"]
