@@ -353,7 +353,6 @@ class ICalEvents:
             dt.DEFAULT_TIME_ZONE,
             start.astimezone(dt.DEFAULT_TIME_ZONE),
         )
-        _LOGGER.debug("Event keys: %s", event.items())
         event_dict = {
             "summary": event.get("SUMMARY", "Unknown"),
             "start": start.astimezone(dt.DEFAULT_TIME_ZONE),
